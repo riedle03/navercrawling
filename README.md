@@ -7,6 +7,16 @@
 
 ---
 
+## 개발 배경
+
+[YouTube 댓글편](https://github.com/riedle03/youtubecrawling) 개발 경험을 skill로 정리해 두었더니, 네이버 뉴스편은 약 4시간 만에 완성할 수 있었습니다. 개발 전반과 데이터 전처리 모두 **Claude Code**와 함께 진행했습니다.
+
+배포 방식도 YouTube 댓글편(GitHub Pages)과 다릅니다. 네이버 뉴스편은 CORS 우회를 위한 서버리스 함수가 필요한 구조라 **Vercel**로 배포했습니다.
+
+전처리 과정에서 흥미로웠던 점은 댓글과 기사 사이의 글 성격 차이였습니다. 댓글은 구어체, 기사는 문어체라 불용어와 통합 사전의 질감이 완전히 달랐습니다. 학생들이 직접 전처리 과정을 경험하면 구어체·문어체의 특성을 스스로 파악하는 살아 있는 매체 수업이 될 수 있습니다.
+
+---
+
 ## 주요 기능
 
 | 단계 | 기능 |
@@ -73,15 +83,12 @@ node server.js
 # Vercel CLI 설치
 npm i -g vercel
 
-# 환경변수 등록
-vercel env add NAVER_CLIENT_ID
-vercel env add NAVER_CLIENT_SECRET
-
 # 배포
 vercel --prod
 ```
 
 `vercel.json`이 `/api/naver` 요청을 서버리스 함수로 라우팅합니다.
+API 키는 Vercel 환경변수가 아닌 사용자 브라우저에서 직접 입력·관리합니다.
 
 ---
 
