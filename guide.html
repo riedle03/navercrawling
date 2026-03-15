@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>수업 가이드 — 슬기로운 말글마이너: 네이버 뉴스편</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/style.css" />
+  <script>
+    tailwind.config = {
+      theme: { extend: { fontFamily: { sans: ['Pretendard', '-apple-system', 'sans-serif'] } } }
+    }
+  </script>
+</head>
+<body class="font-sans min-h-screen flex flex-col">
+
+  <!-- 헤더 -->
+  <header class="glass-header px-6 py-3 flex items-center justify-between sticky top-0 z-50">
+    <div class="flex items-center gap-3">
+      <div class="header-icon-wrap"><span class="text-xl">📖</span></div>
+      <div>
+        <h1 class="text-lg font-bold text-white leading-tight tracking-tight">수업 가이드</h1>
+        <p class="text-sm text-slate-400">슬기로운 말글마이너 — 네이버 뉴스편</p>
+      </div>
+    </div>
+    <a href="index.html"
+       class="settings-btn flex items-center gap-2 px-3 py-2 rounded-xl text-sm transition">
+      <span class="text-base">📰</span>
+      <span class="hidden sm:inline text-slate-300 font-medium">분석 시작</span>
+    </a>
+  </header>
+
+  <!-- 메인 -->
+  <main class="flex-1 container mx-auto max-w-3xl px-4 py-8">
+
+    <!-- 소개 -->
+    <div class="card mb-6">
+      <p class="text-sm leading-relaxed" style="color:var(--text-secondary)">
+        뉴스 기사는 특정 사건이나 이슈에 대해 다양한 언론사가 어떤 언어를 선택하여 보도하는지 보여주는 중요한 텍스트입니다.
+        학생들은 기사 속 단어, 표현 방식, 언론사 분포를 분석하면서 <strong class="text-white">언론의 언어가 '중립적'이지 않을 수 있음</strong>을 직접 체감할 수 있습니다.
+        이 도구를 활용하면 뉴스 읽기를 데이터 기반 미디어 리터러시 수업으로 확장할 수 있습니다.
+      </p>
+    </div>
+
+    <!-- 시리즈 연계 안내 -->
+    <div class="card mb-6 flex items-start gap-3"
+         style="background:rgba(3,199,90,0.06);border:1px solid rgba(3,199,90,0.2)">
+      <span class="text-2xl flex-shrink-0">🔗</span>
+      <div class="text-sm leading-relaxed" style="color:var(--text-secondary)">
+        <strong class="text-white">YouTube 댓글편과 함께 쓰면 더 강력합니다.</strong><br/>
+        같은 키워드로 뉴스 기사(언론의 언어)와 유튜브 댓글(대중의 반응)을 비교하면,
+        미디어 생산자와 수용자 간의 언어 차이를 탐구하는 깊은 미디어 리터러시 수업이 됩니다.
+      </div>
+    </div>
+
+    <!-- 데이터 한계 안내 -->
+    <div class="card mb-6 flex items-start gap-3"
+         style="background:rgba(251,191,36,0.06);border:1px solid rgba(251,191,36,0.25)">
+      <span class="text-xl flex-shrink-0">⚠️</span>
+      <div class="text-sm leading-relaxed" style="color:var(--text-secondary)">
+        <strong class="text-white">수집 데이터의 한계를 꼭 안내하세요.</strong><br/>
+        네이버 뉴스 API는 기사 제목(약 30자)과 발췌 요약문(약 150~250자)만 제공합니다.
+        기사 전문이 아니므로 분석 결과가 실제 기사 내용과 다를 수 있으며, 수집 시점에 따라 결과도 달라집니다.
+        이 점을 학생들과 함께 논의하면 데이터 리터러시 교육이 됩니다.
+      </div>
+    </div>
+
+    <!-- 수업 유형 -->
+    <h2 class="text-base font-bold text-white mb-4">📚 초중고 수업 활용 아이디어</h2>
+
+    <div class="space-y-4">
+
+      <!-- 1. 미디어 리터러시 -->
+      <details class="card" open>
+        <summary class="cursor-pointer font-bold text-white flex items-center gap-2 select-none">
+          <span class="text-lg">📺</span> 1. 미디어 리터러시 수업
+        </summary>
+        <div class="mt-4 space-y-3 text-sm" style="color:var(--text-secondary)">
+          <p>같은 사건을 다룬 기사들에서 어떤 단어가 반복적으로 등장하는지, 언론사마다 표현이 어떻게 다른지 분석합니다. 언론사 분포 차트를 보며 어떤 매체의 기사가 많이 수집됐는지도 확인합니다.</p>
+          <div class="grid sm:grid-cols-2 gap-3 mt-3">
+            <div class="p-3 rounded-xl" style="background:var(--glass-bg);border:1px solid var(--glass-border)">
+              <p class="font-semibold text-xs mb-2" style="color:var(--accent-light)">활동 예시</p>
+              <ul class="text-xs space-y-1 list-disc list-inside">
+                <li>같은 사건의 기사 제목에서 단어 차이 찾기</li>
+                <li>보수 vs. 진보 언론의 키워드 비교</li>
+                <li>언론사 분포 차트로 미디어 편향 논의</li>
+                <li>중복 기사 현상 체감 — "왜 같은 기사가 많을까?"</li>
+              </ul>
+            </div>
+            <div class="p-3 rounded-xl" style="background:var(--glass-bg);border:1px solid var(--glass-border)">
+              <p class="font-semibold text-xs mb-2" style="color:var(--accent-light)">산출물 예시</p>
+              <ul class="text-xs space-y-1 list-disc list-inside">
+                <li>언론사별 표현 비교표</li>
+                <li>핵심 키워드 해석문</li>
+                <li>미디어 편향 분석 보고서</li>
+                <li>기사 읽기 성찰문</li>
+              </ul>
+            </div>
+          </div>
+          <p class="text-xs mt-2 p-2 rounded-lg" style="background:rgba(3,199,90,0.1);color:var(--accent-light)">
+            💡 연합뉴스·뉴시스 발 받아쓰기 기사가 많다는 점 자체가 훌륭한 교육 소재입니다.
+          </p>
+        </div>
+      </details>
+
+      <!-- 2. 비판적 읽기 -->
+      <details class="card">
+        <summary class="cursor-pointer font-bold text-white flex items-center gap-2 select-none">
+          <span class="text-lg">🔍</span> 2. 비판적 읽기 수업
+        </summary>
+        <div class="mt-4 space-y-3 text-sm" style="color:var(--text-secondary)">
+          <p>뉴스 기사에서 사실 진술과 의견 진술을 구분하고, 특정 단어 선택이 독자의 인식에 미치는 영향을 탐구합니다. 단어 빈도 분석 결과를 통해 언론이 특정 사건을 어떤 프레임으로 보도하는지 추론합니다.</p>
+          <div class="p-3 rounded-xl mt-2" style="background:var(--glass-bg);border:1px solid var(--glass-border)">
+            <p class="font-semibold text-xs mb-2" style="color:var(--accent-light)">활동 예시</p>
+            <ul class="text-xs space-y-1 list-disc list-inside">
+              <li>보도에 자주 등장하는 단어 분석 — 어떤 의미를 강조하나?</li>
+              <li>같은 사건, 다른 제목 — 언론사의 시각 차이 비교</li>
+              <li>사실 판단과 의견 표현 구분하기</li>
+              <li>감정을 유발하는 표현 찾기 (선정적 표현 탐색)</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+
+      <!-- 3. 텍스트마이닝 실습 -->
+      <details class="card">
+        <summary class="cursor-pointer font-bold text-white flex items-center gap-2 select-none">
+          <span class="text-lg">📊</span> 3. 텍스트마이닝 실습 수업
+        </summary>
+        <div class="mt-4 space-y-3 text-sm" style="color:var(--text-secondary)">
+          <p>학생들은 뉴스 기사에서 자주 등장하는 단어를 추출하고, 불용어를 정리하며, 단어 연결망 분석(SNA)으로 단어 간 관계를 탐구합니다. 데이터를 읽고 해석하는 과정이 국어 읽기 활동이 됩니다.</p>
+          <div class="grid sm:grid-cols-2 gap-3 mt-3">
+            <div class="p-3 rounded-xl" style="background:var(--glass-bg);border:1px solid var(--glass-border)">
+              <p class="font-semibold text-xs mb-2" style="color:var(--accent-light)">활동 예시</p>
+              <ul class="text-xs space-y-1 list-disc list-inside">
+                <li>빈도 높은 단어 확인 및 해석</li>
+                <li>불용어 설정 — 어떤 단어를 제거할지 논의</li>
+                <li>기사 A와 기사 B의 단어 비교 (시기별·사건별)</li>
+                <li>SNA로 핵심 연어 탐색</li>
+              </ul>
+            </div>
+            <div class="p-3 rounded-xl" style="background:var(--glass-bg);border:1px solid var(--glass-border)">
+              <p class="font-semibold text-xs mb-2" style="color:var(--accent-light)">산출물 예시</p>
+              <ul class="text-xs space-y-1 list-disc list-inside">
+                <li>핵심 키워드 목록과 해석문</li>
+                <li>워드클라우드 이미지 + 설명</li>
+                <li>단어 연결망 분석 보고서</li>
+                <li>비교 분석 발표 자료</li>
+              </ul>
+            </div>
+          </div>
+          <p class="text-xs mt-2 p-2 rounded-lg" style="background:rgba(3,199,90,0.1);color:var(--accent-light)">
+            💡 데이터 분석 결과를 해석하지 않으면 수업이 완성되지 않습니다.
+          </p>
+        </div>
+      </details>
+
+      <!-- 4. 토론·논증 -->
+      <details class="card">
+        <summary class="cursor-pointer font-bold text-white flex items-center gap-2 select-none">
+          <span class="text-lg">💬</span> 4. 토론·논증 글쓰기 연계 수업
+        </summary>
+        <div class="mt-4 space-y-3 text-sm" style="color:var(--text-secondary)">
+          <p>특정 사회 이슈에 대한 언론의 보도 경향을 분석한 뒤, 이를 바탕으로 토론 활동이나 논증 글쓰기로 이어갈 수 있습니다. 뉴스 텍스트는 실제 사회 문제와 연결된 논증 자료로서 높은 가치를 가집니다.</p>
+          <div class="p-3 rounded-xl mt-2" style="background:var(--glass-bg);border:1px solid var(--glass-border)">
+            <p class="font-semibold text-xs mb-2" style="color:var(--accent-light)">활동 예시</p>
+            <ul class="text-xs space-y-1 list-disc list-inside">
+              <li>언론 보도에서 찬반 입장 추출하기</li>
+              <li>수집된 키워드를 근거 자료로 활용한 소논문 쓰기</li>
+              <li>특정 언론사 기사를 비판적으로 분석하는 반박문 쓰기</li>
+              <li>같은 이슈 다른 입장: 미디어 프레임 분석 토론</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+
+      <!-- 5. 사회·역사 연계 -->
+      <details class="card">
+        <summary class="cursor-pointer font-bold text-white flex items-center gap-2 select-none">
+          <span class="text-lg">🌍</span> 5. 사회·역사 교과 연계 수업
+        </summary>
+        <div class="mt-4 space-y-3 text-sm" style="color:var(--text-secondary)">
+          <p>사회, 역사, 정치 수업과 연계하여 현재 진행형 사건의 언론 보도를 분석하거나, 특정 시기의 사회 이슈가 어떤 단어로 보도됐는지 탐구합니다.</p>
+          <div class="p-3 rounded-xl mt-2" style="background:var(--glass-bg);border:1px solid var(--glass-border)">
+            <p class="font-semibold text-xs mb-2" style="color:var(--accent-light)">수업 주제 예시</p>
+            <ul class="text-xs space-y-1 list-disc list-inside">
+              <li>기후변화 / 탄소중립 — 언론이 사용하는 단어 변화 추적</li>
+              <li>청소년 관련 뉴스 — 언론이 청소년을 어떻게 표현하나?</li>
+              <li>경제 이슈 — 인플레이션, 금리, 부동산 뉴스 키워드 분석</li>
+              <li>선거 보도 — 특정 후보·정당 관련 뉴스 어휘 비교</li>
+              <li>사회 갈등 — 특정 집단을 묘사하는 단어 탐색</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+
+      <!-- 6. 프로젝트 수업 -->
+      <details class="card">
+        <summary class="cursor-pointer font-bold text-white flex items-center gap-2 select-none">
+          <span class="text-lg">🔬</span> 6. 프로젝트 기반 수업
+        </summary>
+        <div class="mt-4 space-y-3 text-sm" style="color:var(--text-secondary)">
+          <p>학생들이 스스로 관심 있는 이슈를 선정하고, 뉴스 데이터를 수집·분석하여 탐구 보고서, 발표 자료, 인포그래픽, 카드뉴스 등을 제작합니다.</p>
+          <div class="p-3 rounded-xl mt-2" style="background:var(--glass-bg);border:1px solid var(--glass-border)">
+            <p class="font-semibold text-xs mb-2" style="color:var(--accent-light)">프로젝트 주제 예시</p>
+            <ul class="text-xs space-y-1 list-disc list-inside">
+              <li>AI · 인공지능 관련 뉴스 — 사회가 AI를 어떻게 바라보나?</li>
+              <li>학교·교육 뉴스 — 언론이 학생을 어떤 단어로 표현하나?</li>
+              <li>환경·기후 뉴스 — 위기감 단어 vs. 희망 단어 분포</li>
+              <li>범죄 보도 — 특정 집단에 대한 낙인 언어 탐색</li>
+              <li>경제 뉴스 — 공포 조장 표현 vs. 중립적 표현 비교</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+
+    </div>
+
+    <!-- 학교급별 활용 -->
+    <h2 class="text-base font-bold text-white mt-8 mb-4">🏫 학교급별 활용 방향</h2>
+    <div class="grid sm:grid-cols-3 gap-4">
+      <div class="card text-center">
+        <div class="text-2xl mb-2">🌱</div>
+        <p class="font-bold text-white text-sm mb-2">초등</p>
+        <p class="text-xs leading-relaxed" style="color:var(--text-muted)">뉴스 제목 읽기, 자주 나오는 단어 찾기, 좋은 기사 제목 만들기 중심. 생활과 가까운 사건 활용.</p>
+      </div>
+      <div class="card text-center">
+        <div class="text-2xl mb-2">📗</div>
+        <p class="font-bold text-white text-sm mb-2">중등</p>
+        <p class="text-xs leading-relaxed" style="color:var(--text-muted)">언론사 비교, 키워드 분석, 미디어 프레임 탐색. 사회·국어 교과와 연계한 미디어 리터러시.</p>
+      </div>
+      <div class="card text-center">
+        <div class="text-2xl mb-2">🎓</div>
+        <p class="font-bold text-white text-sm mb-2">고등</p>
+        <p class="text-xs leading-relaxed" style="color:var(--text-muted)">비판적 읽기, SNA 분석, 논증 글쓰기, 탐구 보고서. 수행평가·독서와 연결.</p>
+      </div>
+    </div>
+
+    <!-- 수업 설계 유의점 -->
+    <h2 class="text-base font-bold text-white mt-8 mb-4">⚠️ 수업 설계 시 유의점</h2>
+    <div class="card space-y-4 text-sm" style="color:var(--text-secondary)">
+      <div>
+        <p class="font-semibold text-white mb-1">1. 수집된 데이터는 기사 전문이 아닙니다</p>
+        <p>네이버 API는 제목과 발췌 요약만 제공합니다. 학생들에게 "이 분석은 기사 전체 내용이 아닌 제목과 요약 요약 기반임"을 반드시 안내하세요.</p>
+      </div>
+      <div style="border-top:1px solid var(--glass-border);padding-top:12px">
+        <p class="font-semibold text-white mb-1">2. 중복 기사 현상도 교육 소재입니다</p>
+        <p>같은 사건을 수십 개의 언론사가 거의 동일한 내용으로 보도하는 현상(받아쓰기 보도)을 학생들이 직접 체감하게 됩니다. 이를 언론 다양성 논의로 연결하세요.</p>
+      </div>
+      <div style="border-top:1px solid var(--glass-border);padding-top:12px">
+        <p class="font-semibold text-white mb-1">3. 해석이 분석보다 더 중요합니다</p>
+        <p>단어 빈도나 워드클라우드를 보여주는 것만으로 수업이 완성되지 않습니다. 결과를 읽고 "왜 이 단어가 많이 나왔을까?"를 함께 토론하는 과정이 필수입니다.</p>
+      </div>
+      <div style="border-top:1px solid var(--glass-border);padding-top:12px">
+        <p class="font-semibold text-white mb-1">4. API 키 발급은 교사가 미리 준비하세요</p>
+        <p>수업 시간 중 학생이 직접 API 키를 발급하면 시간이 많이 소요됩니다. 교사가 미리 발급하여 수업 시간에 입력하거나, 가이드를 보고 학생이 사전에 발급하도록 안내하세요.</p>
+      </div>
+    </div>
+
+    <!-- 바로 시작 버튼 -->
+    <div class="flex justify-center mt-8 mb-4">
+      <a href="index.html" class="btn-accent px-8 py-3 rounded-xl text-base font-bold flex items-center gap-2">
+        <span>📰</span> 지금 바로 분석 시작하기
+      </a>
+    </div>
+
+  </main>
+
+  <!-- footer -->
+  <div class="text-center py-3 text-xs text-slate-500" style="background:var(--glass-bg);border-top:1px solid var(--glass-border);">
+    © 2026 이대형 · 슬기로운 말글마이너 —
+    <a href="mailto:riedel@e-mirim.hs.kr" class="hover:text-slate-300 transition">riedel@e-mirim.hs.kr</a>
+    &nbsp;·&nbsp; Made with <span style="color:var(--accent-light);font-weight:600;">Claude Code</span>
+  </div>
+
+</body>
+</html>

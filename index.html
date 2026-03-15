@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>슬기로운 말글마이너 — 네이버 뉴스편</title>
+
+  <!-- Pretendard 폰트 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+  <!-- wordcloud2.js (로컬 우선, CDN 폴백) -->
+  <script src="assets/wordcloud2.js"
+          onerror="this.onerror=null;this.src='https://unpkg.com/wordcloud2@1.2.2/src/wordcloud2.js'"></script>
+
+  <!-- D3.js -->
+  <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+
+  <!-- 커스텀 스타일 -->
+  <link rel="stylesheet" href="css/style.css" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Pretendard', '-apple-system', 'sans-serif'] }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="font-sans min-h-screen flex flex-col">
+
+  <!-- ============================
+       헤더
+  ============================= -->
+  <header class="glass-header px-6 py-3 flex items-center justify-between sticky top-0 z-50">
+    <div class="flex items-center gap-3">
+      <div class="header-icon-wrap">
+        <span class="text-xl">📰</span>
+      </div>
+      <div>
+        <h1 class="text-lg font-bold text-white leading-tight tracking-tight">슬기로운 말글마이너</h1>
+        <p class="text-sm text-slate-400">네이버 뉴스편 — 수업에서 바로 쓰는 텍스트마이닝</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-2">
+      <a
+        href="guide.html"
+        target="_blank"
+        class="settings-btn flex items-center gap-2 px-3 py-2 rounded-xl text-sm transition"
+        aria-label="수업 가이드 열기"
+      >
+        <span class="text-base">📖</span>
+        <span class="hidden sm:inline text-slate-300 font-medium">수업 가이드</span>
+      </a>
+      <button
+        id="btn-settings"
+        onclick="Settings.openModal()"
+        class="settings-btn flex items-center gap-2 px-3 py-2 rounded-xl text-sm transition"
+        aria-label="설정 열기"
+      >
+        <span class="text-base">⚙️</span>
+        <span class="hidden sm:inline text-slate-300 font-medium">설정</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ============================
+       스텝 네비게이터
+  ============================= -->
+  <nav class="glass-nav px-3 py-2" aria-label="분석 단계">
+    <div class="flex items-center gap-2">
+      <!-- 이전 버튼 (좌) -->
+      <button
+        id="nav-btn-prev"
+        onclick="App.prevStep()"
+        class="nav-step-btn"
+        disabled
+        aria-label="이전 단계"
+      >← 이전</button>
+
+      <!-- 스텝 목록 (중앙) -->
+      <ol id="step-navigator" class="flex items-center justify-center gap-1 sm:gap-2 flex-wrap flex-1 min-w-0">
+      </ol>
+
+      <!-- 다음 버튼 (우) -->
+      <button
+        id="nav-btn-next"
+        onclick="App.nextStep()"
+        class="nav-step-btn accent"
+        disabled
+        aria-label="다음 단계"
+      >다음 →</button>
+    </div>
+  </nav>
+
+  <!-- ============================
+       메인 콘텐츠
+  ============================= -->
+  <main id="main-content" class="flex-1 container mx-auto max-w-5xl px-4 py-6">
+    <div id="step-container">
+      <div class="flex items-center justify-center h-48 text-slate-500">
+        <span class="text-4xl mr-3">⏳</span>
+        <span class="font-medium">로딩 중...</span>
+      </div>
+    </div>
+  </main>
+
+  <!-- ============================
+       하단 상태바 & 네비게이션
+  ============================= -->
+  <footer class="glass-footer px-6 py-3 flex items-center justify-between">
+    <div id="status-info" class="text-sm text-slate-400 flex gap-4 font-medium">
+      <span id="status-comments">기사: <strong class="text-slate-200">0</strong>개</span>
+      <span id="status-tokens" class="hidden">토큰: <strong class="text-slate-200">0</strong>개</span>
+    </div>
+
+    <div class="flex gap-2">
+      <button
+        id="btn-prev"
+        onclick="App.prevStep()"
+        class="btn-ghost px-4 py-2 rounded-xl text-base font-semibold transition disabled:opacity-25 disabled:cursor-not-allowed"
+        disabled
+        aria-label="이전 단계"
+      >
+        ← 이전
+      </button>
+      <button
+        id="btn-next"
+        onclick="App.nextStep()"
+        class="btn-accent px-5 py-2 rounded-xl text-base font-bold transition disabled:opacity-25 disabled:cursor-not-allowed"
+        disabled
+        aria-label="다음 단계"
+      >
+        다음 →
+      </button>
+    </div>
+  </footer>
+
+  <!-- ============================
+       설정 모달
+  ============================= -->
+  <div id="settings-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-box">
+      <!-- 모달 헤더 -->
+      <div class="flex items-center justify-between mb-5">
+        <h2 id="modal-title" class="text-base font-bold text-white">⚙️ 설정</h2>
+        <button
+          onclick="Settings.closeModal()"
+          class="modal-close-btn text-slate-400 hover:text-white text-2xl leading-none transition"
+          aria-label="닫기"
+        >&times;</button>
+      </div>
+
+      <!-- 네이버 API 키 -->
+      <div class="mb-4">
+        <p class="text-sm font-bold text-white mb-3">
+          🟢 네이버 검색 API 인증 정보
+        </p>
+
+        <!-- Client ID -->
+        <label for="input-naver-id" class="block text-xs font-semibold text-slate-400 mb-1">
+          Client ID
+        </label>
+        <div class="flex gap-2 mb-1">
+          <input
+            id="input-naver-id"
+            type="password"
+            placeholder="Client ID 입력"
+            class="modal-input flex-1 px-3 py-2 rounded-xl text-sm"
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <button
+            onclick="Settings.toggleNaverIdVisibility()"
+            id="btn-toggle-naver-id"
+            class="modal-icon-btn px-3 py-2 rounded-xl text-sm"
+            aria-label="Client ID 표시/숨김"
+          >👁</button>
+        </div>
+        <div id="naver-id-status" class="mb-3 text-xs"></div>
+
+        <!-- Client Secret -->
+        <label for="input-naver-secret" class="block text-xs font-semibold text-slate-400 mb-1">
+          Client Secret
+        </label>
+        <div class="flex gap-2 mb-1">
+          <input
+            id="input-naver-secret"
+            type="password"
+            placeholder="Client Secret 입력"
+            class="modal-input flex-1 px-3 py-2 rounded-xl text-sm"
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <button
+            onclick="Settings.toggleNaverSecretVisibility()"
+            id="btn-toggle-naver-secret"
+            class="modal-icon-btn px-3 py-2 rounded-xl text-sm"
+            aria-label="Client Secret 표시/숨김"
+          >👁</button>
+        </div>
+        <div id="naver-secret-status" class="mb-2 text-xs"></div>
+
+        <!-- 연결 테스트 결과 -->
+        <div id="naver-test-result" class="mb-3 text-xs font-semibold"></div>
+
+        <div class="p-3 rounded-xl text-xs leading-relaxed modal-info-box">
+          <strong style="color:var(--accent-light)">💡 API 키 발급 방법</strong><br/>
+          1. <a href="https://developers.naver.com/apps/#/register" target="_blank" rel="noopener"
+               class="underline hover:text-white" style="color:var(--accent-light)">네이버 개발자센터</a> → 내 애플리케이션 등록<br/>
+          2. 사용 API: <strong>검색</strong> 선택<br/>
+          3. 환경: WEB 설정 → 비로그인 오픈 API<br/>
+          4. 서비스 URL: <code class="px-1 rounded text-xs" style="background:rgba(255,255,255,0.08)">https://news.naver.com/</code><br/>
+          5. 등록 후 Client ID + Client Secret 복사 → 위에 붙여넣기
+        </div>
+        <p class="mt-2 text-xs text-slate-500">
+          🔒 API 키는 이 브라우저에만 저장되며 외부로 전송되지 않습니다.
+        </p>
+      </div>
+
+      <!-- 구분선 -->
+      <div class="section-divider"></div>
+
+      <!-- 바른(Bareun) 형태소 API 키 -->
+      <div class="mb-4">
+        <div class="flex items-center justify-between mb-2">
+          <label for="input-bareun-key" class="block text-sm font-semibold text-slate-300">
+            바른(Bareun) 형태소 API 키
+            <span class="text-xs text-slate-500 font-normal ml-1">(선택 — Step 2 형태소 분석용)</span>
+          </label>
+          <a href="https://bareun.ai" target="_blank" rel="noopener"
+             class="text-xs underline hover:text-white" style="color:var(--accent-light)">키 발급 →</a>
+        </div>
+        <div class="flex gap-2">
+          <input
+            id="input-bareun-key"
+            type="password"
+            placeholder="koba-..."
+            class="modal-input flex-1 px-3 py-2 rounded-xl text-sm"
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <button
+            onclick="Settings.toggleBareunKeyVisibility()"
+            id="btn-toggle-bareun"
+            class="modal-icon-btn px-3 py-2 rounded-xl text-sm"
+            aria-label="바른 API 키 표시/숨김"
+          >👁</button>
+        </div>
+        <div class="mt-2 p-3 rounded-xl text-xs leading-relaxed modal-info-box">
+          <strong style="color:var(--accent-light)">💡 바른 API 키 발급 방법</strong><br/>
+          1. <a href="https://bareun.ai" target="_blank" rel="noopener"
+               class="underline hover:text-white" style="color:var(--accent-light)">bareun.ai</a> 접속 → 회원가입 또는 로그인<br/>
+          2. 우측 상단 프로필 → <strong>마이페이지</strong> 이동<br/>
+          3. <strong>API 키 발급</strong> 버튼 클릭<br/>
+          4. 생성된 키(koba-로 시작)를 위 입력란에 붙여넣기<br/>
+          <span style="color:var(--text-muted);margin-top:4px;display:block;">
+            ✨ "밝혔다"·"밝혀졌다" → <strong>"밝"</strong> / "강조했다"·"강조" → <strong>"강조"</strong>로 통합 분석됩니다.
+          </span>
+        </div>
+        <div id="bareun-key-status" class="mt-2 text-xs"></div>
+      </div>
+
+      <!-- 버튼 -->
+      <div class="flex justify-end gap-2">
+        <button
+          onclick="Settings.closeModal()"
+          class="btn-ghost px-4 py-2 rounded-xl text-sm font-semibold"
+        >취소</button>
+        <button
+          onclick="Settings.saveKey()"
+          class="btn-accent px-5 py-2 rounded-xl text-sm font-bold"
+        >저장 및 연결 확인</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================
+       저작권 푸터
+  ============================= -->
+  <div class="text-center py-3 text-xs text-slate-500" style="background:var(--glass-bg);border-top:1px solid var(--glass-border);">
+    © 2026 이대형 · 슬기로운 말글마이너 —
+    <a href="mailto:riedel@e-mirim.hs.kr" class="hover:text-slate-300 transition">riedel@e-mirim.hs.kr</a>
+    &nbsp;·&nbsp; Made with <span style="color:var(--accent-light);font-weight:600;">Claude Code</span>
+    &nbsp;·&nbsp; <a href="privacy.html" target="_blank" class="hover:text-slate-300 transition">개인정보 처리방침</a>
+  </div>
+
+  <!-- ============================
+       토스트 알림
+  ============================= -->
+  <div id="toast" class="toast hidden" role="alert" aria-live="polite"></div>
+
+  <!-- ============================
+       플로팅 다음 버튼 (FAB)
+  ============================= -->
+  <button
+    id="fab-next"
+    onclick="App.nextStep()"
+    class="fab-next hidden"
+    aria-label="다음 단계로"
+  >
+    다음 단계 <span class="fab-arrow">→</span>
+  </button>
+
+  <!-- ============================
+       JS 모듈 로드
+  ============================= -->
+  <script src="js/normdict.js"></script>
+  <script src="js/stopwords.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/settings.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/step1_collector.js"></script>
+  <script src="js/step2_preprocess.js"></script>
+  <script src="js/step3_frequency.js"></script>
+  <script src="js/step4_barchart.js"></script>
+  <script src="js/step5_wordcloud.js"></script>
+  <script src="js/step6_sna.js"></script>
+
+</body>
+</html>

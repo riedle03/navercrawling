@@ -1,0 +1,12 @@
+# 환경변수
+.env
+
+# 수집 데이터 (CSV)
+*.csv
+
+# 로컬 도구 설정
+.claude/
+.omc/
+
+# Node
+node_modules/
