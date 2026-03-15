@@ -158,13 +158,25 @@ const Step1 = (() => {
   // ── 관련성 필터 (제목·발췌에 검색어 토큰 포함 여부) ─
   function applyRelevanceFilter(items, query) {
     if (!relevFilterEnabled) return items;
-    const tokens = query
+    const raw = query
       .split(/[\s,]+/)
       .map(t => t.trim().toLowerCase())
       .filter(t => t.length >= 2);
-    if (!tokens.length) return items;
+    if (!raw.length) return items;
+
+    // 순수 한국어 복합어(공백 없이 붙여 쓴 경우)는 2글자 단위로 추가 분리
+    // 예: "빈곤은둔청년" → ["빈곤", "은둔", "청년"]
+    const tokens = new Set(raw);
+    for (const t of raw) {
+      if (/^[가-힣]+$/.test(t) && t.length >= 4) {
+        for (let i = 0; i + 2 <= t.length; i += 2) {
+          tokens.add(t.slice(i, i + 2));
+        }
+      }
+    }
+
     return items.filter(item =>
-      tokens.some(t =>
+      [...tokens].some(t =>
         item.title.toLowerCase().includes(t) ||
         item.description.toLowerCase().includes(t)
       )
